@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TaskList</title>
   <link rel="stylesheet" href="./src/index.css">
+  <script defer type="module" src="./index.js"></script>
 </head>
 
 <body>
@@ -15,29 +16,7 @@
     </div>
   </header>
   <section class="task-list">
-    <div class="container">
-      <!-- MockUp Empty task array  -->
-      <article class="task">
-        <div class="task__options task__options--off">
-          <span>17 de Feb</span>
-          <div>
-            <button class="edit-task"><img src="./src/images/edit.png" alt="Edit task"></button>
-            <button class="delete-task"><img src="./src/images/trash.png" alt="Delete task"></button>
-          </div>
-        </div>
-        <p>😢 Aún no hay tareas creadas. Utilice el boton ➕ para agregar nuevas tareas.</p>
-      </article>
-      <!-- Mockup Task create  -->
-      <article class="task">
-        <div class="task__options">
-          <span>2024 &bullet; 17 de Feb</span>
-          <div class="task__controllers">
-            <button class="edit-task"><img src="./src/images/edit.png" alt="Edit task"></button>
-            <button class="delete-task"><img src="./src/images/trash.png" alt="Delete task"></button>
-          </div>
-        </div>
-        <p>🧡🧡🧡 Soy una tarea recién creada. Espero no te olvides de mí.</p>
-      </article>
+    <div class="container" id="task-list-container">
     </div>
     <div class="modal modal--off">
       <div class="modal-data">
@@ -45,10 +24,36 @@
               src="./src/images/close.png" alt="close modal"></span></label>
         <textarea name="modal-data__textarea" id="modal-data__textarea"></textarea>
       </div>
-      <button class="button-state"><img src="./src/images/add.png" alt="Button option"></button>
+      <button class="button-state button-modal"><img src="./src/images/add.png" alt="Button option"></button>
     </div>
     <button class="button-state button-trigger"><img src="./src/images/add.png" alt="Button option"></button>
   </section>
+  <!-- MockUp Empty task array  -->
+  <template id="emptyTask">
+    <article class="task">
+      <div class="task__options task__options--off">
+        <span>17 de Feb</span>
+        <div>
+          <button class="edit-task"><img src="./src/images/edit.png" alt="Edit task"></button>
+          <button class="delete-task"><img src="./src/images/trash.png" alt="Delete task"></button>
+        </div>
+      </div>
+      <p>😢 Aún no hay tareas creadas. Utilice el boton ➕ para agregar nuevas tareas.</p>
+    </article>
+  </template>
+  <!-- Mockup Task create  -->
+  <template id="task">
+    <article class="task">
+      <div class="task__options">
+        <span id="time">2024 &bullet; 17 de Feb</span>
+        <div class="task__controllers">
+          <button class="edit-task"><img src="./src/images/edit.png" alt="Edit task"></button>
+          <button class="delete-task"><img src="./src/images/trash.png" alt="Delete task"></button>
+        </div>
+      </div>
+      <p id="task-content">🧡🧡🧡 Soy una tarea recién creada. Espero no te olvides de mí.</p>
+    </article>
+  </template>
 </body>
 
 </html>
