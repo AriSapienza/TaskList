@@ -47,7 +47,10 @@ function render(arrTask) {
 
       // Update the text of the new element
       newItem.querySelector(".task").setAttribute("id", `task-${idx}`);
-      newItem.querySelector("#task-content").textContent = taskItem.task;
+      newItem.querySelector(".task-content").textContent = taskItem.task;
+      newItem
+        .querySelector(".task-content")
+        .setAttribute("id", `task-content-${idx}`);
       newItem.querySelector("#time").textContent = getDateFormat(taskItem.date);
 
       // Add the new element to the page
@@ -55,6 +58,80 @@ function render(arrTask) {
       idx++;
     }
   }
+}
+
+function cargarListener(arrTask) {
+  const buttonEditModal = document.querySelector(".button-edit");
+  const buttonAddModal = document.querySelector(".button-add");
+  const buttonModal = document.querySelector(".button-modal");
+  const buttonTrigger = document.querySelector(".button-trigger");
+  const modal = document.querySelector(".modal");
+
+  const editTask = document.querySelectorAll(".edit-task");
+  const deleteTask = document.querySelectorAll(".delete-task");
+
+  const textArea = document.querySelector("#modal-data__textarea");
+
+  editTask.forEach(function (editEl) {
+    editEl.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log("un flag en el eventlistenner");
+
+      modal.classList.remove("modal--off");
+      buttonTrigger.classList.add("button-trigger--off");
+
+      buttonEditModal.classList.remove("button-edit--off");
+      buttonAddModal.classList.add("button-add--off");
+
+      const thisTaskID = editEl.parentNode.parentNode.parentElement.id;
+      const positionEl = parseInt(thisTaskID.split("-")[1]);
+
+      const dataTask = arrTask[positionEl].task;
+      // console.log(dataTask)
+
+      textArea.value = dataTask;
+
+      // console.log(positionEl)
+
+      // arrTask.splice(positionEl,1,textarea);
+      const pContent = document.getElementById(`task-content-${positionEl}`);
+
+      buttonEditModal.addEventListener("click", function () {
+        arrTask[positionEl].task = textArea.value;
+
+        
+        pContent.textContent = textArea.value;
+        textArea.value = "";
+        
+        console.log(pContent);
+        console.log(positionEl)
+
+        buttonEditModal.classList.add("button-edit--off");
+        buttonAddModal.classList.remove("button-add--off");
+        modal.classList.add("modal--off");
+        buttonTrigger.classList.remove("button-trigger--off");
+      });
+    });
+  });
+
+  deleteTask.forEach(function (deleteEl) {
+    deleteEl.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      //Consigo los elementos de los containers en el cual estoy situado y su padre
+      const thisTask = deleteEl.parentNode.parentNode.parentElement;
+      const containerTask =
+        deleteEl.parentNode.parentNode.parentElement.parentElement;
+
+      //Consigo el ID del elemento cuyo evento se escucha
+      const thisTaskID = deleteEl.parentNode.parentNode.parentElement.id;
+      const positionEl = parseInt(thisTaskID.split("-")[1]);
+
+      //Elimino los elementos HTML y el elemento del Array (DB)
+      arrTask.splice(positionEl, 1);
+      containerTask.removeChild(thisTask);
+    });
+  });
 }
 
 function main() {
@@ -75,6 +152,8 @@ function main() {
     addTask(arrTask, textarea);
     document.querySelector("#modal-data__textarea").value = "";
     render(arrTask);
+    cargarListener(arrTask);
+    console.log(arrTask);
     modal.classList.add("modal--off");
     buttonTrigger.classList.remove("button-trigger--off");
   });
